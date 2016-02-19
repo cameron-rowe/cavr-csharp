@@ -40,30 +40,49 @@
     <Reference Include="NLua">
       <HintPath>..\packages\NLua_Safe.1.3.2.1\lib\net45\NLua.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <Package>nunit</Package>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="math\Vector.cs" />
-    <Compile Include="math\Matrix.cs" />
-    <Compile Include="com\Communications.cs" />
-    <Compile Include="com\Socket.cs" />
-    <Compile Include="config\Configuration.cs" />
-    <Compile Include="config\ConfigurationSpecification.cs" />
-    <Compile Include="config\ParameterType.cs" />
-    <Compile Include="config\Config.cs" />
-    <Compile Include="config\ParameterSpecification.cs" />
-    <Compile Include="util\ICopyable.cs" />
-    <Compile Include="config\LuaReader.cs" />
-    <Compile Include="util\LuaState.cs" />
+    <Compile Include="cavr\com\Communications.cs" />
+    <Compile Include="cavr\com\Socket.cs" />
+    <Compile Include="cavr\config\Config.cs" />
+    <Compile Include="cavr\config\Configuration.cs" />
+    <Compile Include="cavr\config\ConfigurationSpecification.cs" />
+    <Compile Include="cavr\config\LuaReader.cs" />
+    <Compile Include="cavr\config\ParameterSpecification.cs" />
+    <Compile Include="cavr\config\ParameterType.cs" />
+    <Compile Include="cavr\math\Matrix.cs" />
+    <Compile Include="cavr\math\Vector.cs" />
+    <Compile Include="cavr\util\ICopyable.cs" />
+    <Compile Include="cavr\util\LuaState.cs" />
+    <Compile Include="test\cavr\MainTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="math\" />
-    <Folder Include="com\" />
-    <Folder Include="config\" />
-    <Folder Include="util\" />
+    <Folder Include="cavr\" />
+    <Folder Include="cavr\com\" />
+    <Folder Include="cavr\config\" />
+    <Folder Include="cavr\math\" />
+    <Folder Include="cavr\util\" />
+    <Folder Include="test\" />
+    <Folder Include="test\cavr\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="Hierarchical" ResourceNamePolicy="FileFormatDefault" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
 </Project>
