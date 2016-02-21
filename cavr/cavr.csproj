@@ -40,11 +40,16 @@
     <Reference Include="NLua">
       <HintPath>..\packages\NLua_Safe.1.3.2.1\lib\net45\NLua.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <Package>nunit</Package>
-    </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +67,20 @@
     <Compile Include="cavr\util\ICopyable.cs" />
     <Compile Include="cavr\util\LuaState.cs" />
     <Compile Include="test\cavr\MainTest.cs" />
+    <Compile Include="cavr\util\Util.cs" />
+    <Compile Include="cavr\com\DeviceInputs.cs" />
+    <Compile Include="cavr\util\Paths.cs" />
+    <Compile Include="cavr\util\File.cs" />
+    <Compile Include="cavr\input\Marker.cs" />
+    <Compile Include="cavr\input\Input.cs" />
+    <Compile Include="cavr\input\Analog.cs" />
+    <Compile Include="cavr\input\Button.cs" />
+    <Compile Include="cavr\input\ManagedInput.cs" />
+    <Compile Include="cavr\input\InputManager.cs" />
+    <Compile Include="cavr\input\InputMap.cs" />
+    <Compile Include="cavr\input\SixDOF.cs" />
+    <Compile Include="cavr\input\Specification.cs" />
+    <Compile Include="cavr\input\Switch.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="cavr\" />
@@ -71,6 +90,7 @@
     <Folder Include="cavr\util\" />
     <Folder Include="test\" />
     <Folder Include="test\cavr\" />
+    <Folder Include="cavr\input\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -18,7 +18,7 @@ namespace cavr.config
 		{
 		}
 
-		public bool Get<T>(string path, ref T val) where T : struct, IComparable<T> {
+		public bool Get<T>(string path, ref T val) {
 			var pathParts = path.Split('.').ToList();
 			if(pathParts.Count == 0) {
 				log.Error("Empty Path");

@@ -131,7 +131,7 @@ namespace cavr.util
 			StackDepth = 0;
 		}
 
-		public bool ReadValue<T>(ref T val) where T : struct, IComparable<T> {
+		public bool ReadValue<T>(ref T val) {
 			if(!LuaLib.LuaIsNumber(State, -1)) {
 				log.Error("Value is not a number");
 				return false;
@@ -201,7 +201,7 @@ namespace cavr.util
 			return true;
 		}
 
-		public bool GetValue<T>(string key, ref T val) where T : struct, IComparable<T> {
+		public bool GetValue<T>(string key, ref T val) {
 			if(!PushValue(key)) {
 				return false;
 			}

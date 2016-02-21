@@ -87,6 +87,7 @@ namespace cavr.math
 
 		public float this[int index] {
 			get { return values[index]; }
+			set { values[index] = value; }
 		}
 
 		public static bool operator == (VectorBasef lhs, VectorBasef rhs) {
@@ -150,6 +151,10 @@ namespace cavr.math
 
 		public static Vector2f operator / (Vector2f vec, float scalar) {
 			return new Vector2f(vec[0] / scalar, vec[1] / scalar);
+		}
+
+		public static Vector2f operator - (Vector2f vec) {
+			return new Vector2f(-vec[0], -vec[1]);
 		}
 
 		public static implicit operator Vector3f(Vector2f vec) {
@@ -269,6 +274,10 @@ namespace cavr.math
 			return new Vector3f(vec[0] / scalar, vec[1] / scalar, vec[2] / scalar);
 		}
 
+		public static Vector3f operator - (Vector3f vec) {
+			return new Vector3f(-vec[0], -vec[1]);
+		}
+
 		public static implicit operator Vector2f(Vector3f vec) {
 			return new Vector2f(vec[0], vec[1]);
 		}
@@ -362,6 +371,7 @@ namespace cavr.math
 
 		public double this[int index] {
 			get { return values[index]; }
+			set { values[index] = value; }
 		}
 
 		public static bool operator == (VectorBased lhs, VectorBased rhs) {
@@ -425,6 +435,10 @@ namespace cavr.math
 
 		public static Vector2d operator / (Vector2d vec, double scalar) {
 			return new Vector2d(vec[0] / scalar, vec[1] / scalar);
+		}
+
+		public static Vector2d operator - (Vector2d vec) {
+			return new Vector2d(-vec[0], -vec[1]);
 		}
 
 		public static implicit operator Vector3d(Vector2d vec) {
@@ -542,6 +556,10 @@ namespace cavr.math
 
 		public static Vector3d operator / (Vector3d vec, double scalar) {
 			return new Vector3d(vec[0] / scalar, vec[1] / scalar, vec[2] / scalar);
+		}
+
+		public static Vector3d operator - (Vector3d vec) {
+			return new Vector3d(-vec[0], -vec[1], -vec[2]);
 		}
 
 		public static implicit operator Vector2d(Vector3d vec) {
