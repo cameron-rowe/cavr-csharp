@@ -9,8 +9,8 @@ namespace cavr
 {
 	public interface Plugin
 	{
-		bool Step();
 		bool Init(Configuration config);
+		bool Step();
 	}
 
 	public abstract class PluginGeneratorBase

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Reflection;
+using System.Threading;
+
+using OpenTK;
+using OpenTK.Graphics;
 
 using cavr;
-using cavr.math;
 
 namespace test
 {
@@ -11,7 +14,6 @@ namespace test
 		public static void Main(string[] args)
 		{
 			cavr.System.InitLogging();
-			PluginUtils.LoadPlugin("/Users/cam/Desktop/test/csharp/cavr/extensions/bin/Debug/extensions.dll");
 		}
 	}
 }
