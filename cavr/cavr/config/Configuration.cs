@@ -32,7 +32,7 @@ namespace cavr.config
 			return string.Empty;
 		}
 
-		public void PopPrefix() {
+		public void PopPrefix(string prefix = "") {
 			accessPrefixes.Pop();
 		}
 

@@ -54,6 +54,7 @@ namespace cavr.com
 
 		public void Dispose() {
 			socket.Dispose();
+			GC.SuppressFinalize(this);
 		}
 
 		public static string GetStringFromBytes(byte[] bytes) {

@@ -2,7 +2,7 @@
 using System.Threading;
 
 using Vec3 = cavr.math.Vector3d;
-using Mat4 = cavr.math.Matrix4x4d;
+using Mat4 = cavr.math.Matrix4d;
 
 namespace cavr.input
 {
@@ -96,14 +96,16 @@ namespace cavr.input
 			liveLock = new ReaderWriterLockSlim();
 		}
 
-		public void Sync() {
+		public void Sync()
+		{
 			liveLock.EnterReadLock();
 			var m = liveState.Copy();
 			liveLock.ExitReadLock();
 			SyncState(m);
 		}
 
-		public void SyncState(Mat4 m) {
+		public void SyncState(Mat4 m)
+		{
 			liveLock.EnterWriteLock();
 			state = m;
 			liveLock.ExitWriteLock();

@@ -28,20 +28,40 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="OpenTK">
+      <HintPath>..\packages\OpenTK.1.1.2225.0\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="extensions\window_system\Window.cs" />
+    <Compile Include="extensions\gfx\Renderer.cs" />
+    <Compile Include="extensions\gfx\Ray.cs" />
+    <Compile Include="extensions\gfx\Shapes.cs" />
+    <Compile Include="extensions\gfx\Sphere.cs" />
+    <Compile Include="extensions\gl\Shader.cs" />
+    <Compile Include="extensions\gl\Program.cs" />
+    <Compile Include="extensions\gl\VAO.cs" />
+    <Compile Include="extensions\gl\VBO.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="extensions\" />
-    <Folder Include="extensions\window_system\" />
+    <Folder Include="extensions\gfx\" />
+    <Folder Include="extensions\gl\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\cavr\cavr.csproj">
       <Project>{0E699046-E2AA-4709-8437-60EE47550395}</Project>
       <Name>cavr</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OpenTK.dll.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

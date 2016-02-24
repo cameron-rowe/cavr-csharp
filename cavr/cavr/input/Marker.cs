@@ -13,7 +13,8 @@ namespace cavr.input
 	{
 		public Vector3d Position { get; private set; }
 
-		public StaticMarker(Vector3d pos) {
+		public StaticMarker(Vector3d pos)
+		{
 			Position = pos;
 		}
 	}
@@ -21,19 +22,20 @@ namespace cavr.input
 	public struct SixDOFMarker : Marker
 	{
 		private SixDOF sixdof;
-		private Matrix4x4d pretransform;
-		private Matrix4x4d posttransform;
+		private Matrix4d pretransform;
+		private Matrix4d posttransform;
 
 		public Vector3d Position {
 			get {
-				var m = pretransform * sixdof.Matrix * posttransform as Matrix4x4d;
+				var m = pretransform * sixdof.Matrix * posttransform as Matrix4d;
 				return m.Row(3);
 			}
 		}
 
-		public SixDOFMarker(Matrix4x4d pre, Matrix4x4d post, SixDOF sixd) {
+		public SixDOFMarker(Matrix4d pre, Matrix4d post, SixDOF sixd)
+		{
 			sixdof = sixd;
-			pretransform  = pre;
+			pretransform = pre;
 			posttransform = post;
 		}
 	}
