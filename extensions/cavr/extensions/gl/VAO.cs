@@ -2,7 +2,7 @@
 
 using OpenTK.Graphics.OpenGL;
 
-namespace extensions.gl
+namespace cavr.extensions.gl
 {
 	public class VAO : IDisposable
 	{

@@ -1,7 +1,7 @@
 ﻿
 using cavr.math;
 
-namespace extensions.gfx
+namespace cavr.extensions.gfx
 {
 	public struct Ray
 	{

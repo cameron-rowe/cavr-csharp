@@ -3,7 +3,7 @@
 using cavr.math;
 using cavr.util;
 
-namespace extensions.gfx
+namespace cavr.extensions.gfx
 {
 	public struct Sphere
 	{

@@ -5,7 +5,7 @@ using NLog;
 
 namespace cavr.input
 {
-	public class ManagedInput<T> where T : Input
+    public class ManagedInput<T> where T : Input, new()
 	{
 		private static Logger log = LogManager.GetCurrentClassLogger();
 
@@ -64,7 +64,7 @@ namespace cavr.input
 				return obj;
 			}
 
-			obj = default(T);
+            obj = new T();
 			obj.Name = name;
 			byDeviceName[name] = obj;
 

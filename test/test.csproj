@@ -34,6 +34,9 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -44,10 +47,17 @@
       <Project>{0E699046-E2AA-4709-8437-60EE47550395}</Project>
       <Name>cavr</Name>
     </ProjectReference>
+    <ProjectReference Include="..\extensions\extensions.csproj">
+      <Project>{D5476360-B38D-4A6A-86C5-59E432904F2D}</Project>
+      <Name>extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <None Include="example.lua" />
+    <None Include="cavrplugins.lua" />
+    <None Include="cavrconfig.lua" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

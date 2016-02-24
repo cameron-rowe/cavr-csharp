@@ -16,6 +16,7 @@ namespace cavr.config
 
 		private LuaReader()
 		{
+            luaState = new LuaState();
 		}
 
 		public bool Get<T>(string path, ref T val) {

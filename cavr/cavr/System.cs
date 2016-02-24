@@ -17,6 +17,8 @@ using cavr.util;
 
 namespace cavr
 {
+    public delegate void FunctionCallback();
+
 	public static class System
 	{
 		private static Logger log;
@@ -225,12 +227,12 @@ namespace cavr
 			return true;
 		}
 
-		public static void SetCallback(string name, CallBackFunc f) {
+		public static void SetCallback(string name, FunctionCallback f) {
 			data.callbacks[name] = f;
 		}
 
-		public static CallBackFunc GetCallback(string name) {
-			CallBackFunc f;
+		public static FunctionCallback GetCallback(string name) {
+			FunctionCallback f;
 			if(!data.callbacks.TryGetValue(name, out f)) {
 				log.Error("No callback named {0}", name);
 				return () => {};
@@ -244,7 +246,7 @@ namespace cavr
 			var master = data.master;
 			var pubsubFunction = GetCallback(master ? "publish_data" : "receive_data");
 
-			CallBackFunc updateThread = () => {
+			FunctionCallback updateThread = () => {
 				while(!Terminated()) {
 					if(master) {
 						pubsubFunction();
@@ -267,7 +269,7 @@ namespace cavr
 
 			foreach(var pair in data.plugins) {
 				var plugin = pair.Value;
-				CallBackFunc threadFunc = () => {
+				FunctionCallback threadFunc = () => {
 					while(!Terminated()) {
 						plugin.Step();
 					}
@@ -311,7 +313,7 @@ namespace cavr
 			contextData.Value = data;
 		}
 
-		public static void InitLogging() {
+		private static void InitLogging() {
 			var config = new LoggingConfiguration();
 			var consoleTarget = new ColoredConsoleTarget();
 
@@ -336,11 +338,9 @@ namespace cavr
 			log = LogManager.GetCurrentClassLogger();
 		}
 
-		public delegate void CallBackFunc();
-
 		private struct Data
 		{
-			public Dictionary<string, CallBackFunc> callbacks;
+			public Dictionary<string, FunctionCallback> callbacks;
 			public bool terminated;
 			public bool master;
 			public List<Thread> threads;
@@ -354,7 +354,7 @@ namespace cavr
 
 			public static Data CreateEmpty() {
 				return new Data {
-					callbacks = new Dictionary<string, CallBackFunc>(),
+					callbacks = new Dictionary<string, FunctionCallback>(),
 					terminated = false,
 					master = false,
 					threads = new List<Thread>(),

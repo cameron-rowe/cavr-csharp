@@ -3,7 +3,7 @@
 using NLog;
 using OpenTK.Graphics.OpenGL;
 
-namespace extensions.gl
+namespace cavr.extensions.gl
 {
 	public class Program : IDisposable
 	{

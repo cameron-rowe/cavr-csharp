@@ -5,7 +5,7 @@ using OpenTK.Graphics.OpenGL;
 
 using cavr.util;
 
-namespace extensions.gl
+namespace cavr.extensions.gl
 {
 	public class Shader : IDisposable
 	{

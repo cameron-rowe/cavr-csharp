@@ -167,5 +167,22 @@ Global
 		$23.IncludeStaticEntities = True
 		$0.VersionControlPolicy = $25
 		$25.inheritsSet = Mono
+		$0.TextStylePolicy = $28
+		$28.FileWidth = 120
+		$28.EolMarker = Unix
+		$28.inheritsSet = VisualStudio
+		$28.inheritsScope = text/plain
+		$28.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $29
+		$29.IndentSwitchSection = True
+		$29.SpacingAfterMethodDeclarationName = False
+		$29.SpaceAfterMethodCallName = False
+		$29.SpaceBeforeOpenSquareBracket = False
+		$29.inheritsSet = Mono
+		$29.inheritsScope = text/x-csharp
+		$29.scope = text/x-csharp
+		$0.StandardHeader = $30
+		$30.Text = 
+		$30.IncludeInNewFiles = True
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,2 @@
+﻿
+import("example.lua")

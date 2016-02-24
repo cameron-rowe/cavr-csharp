@@ -8,6 +8,8 @@ namespace cavr.util
 		public static List<string> GetConfigPaths() {
 			var paths = new List<string> {"."};
 
+            paths.Add("/Users/cam/Desktop/test/csharp/cavr/test");
+
 			var cavrPaths = GetCavrPaths();
 
 			paths.AddRange(cavrPaths);

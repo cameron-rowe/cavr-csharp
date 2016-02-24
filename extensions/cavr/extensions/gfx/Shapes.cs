@@ -5,7 +5,7 @@ using cavr.math;
 
 using VertexList = System.Collections.Generic.List<cavr.math.Vector3f>;
 
-namespace extensions.gfx
+namespace cavr.extensions.gfx
 {
 	public static class Shapes
 	{

@@ -12,8 +12,6 @@ using cavr.input;
 
 namespace opengl
 {
-	public delegate void FunctionCallback();
-
 	public class Gl : Plugin
 	{
 		private static Logger log = LogManager.GetCurrentClassLogger();
@@ -33,8 +31,9 @@ namespace opengl
 		private DisplayDevice display;
 
 		private string inputName;
-		private Dictionary<NativeWindow, Window> windowMap;
+		//private Dictionary<NativeWindow, Window> windowMap;
 		private Dictionary<Key, Button> buttonByKey;
+        private List<Window> windows;
 
 		private FunctionCallback updateContextCallback;
 		private FunctionCallback destructContextCallback;
@@ -47,15 +46,16 @@ namespace opengl
 
 			stereoWindows = new List<Window>();
 			monoWindows = new List<Window>();
-			windowMap = new Dictionary<NativeWindow, Window>();
+            windows = new List<Window>();
+			//windowMap = new Dictionary<NativeWindow, Window>();
 			buttonByKey = new Dictionary<Key, Button>();
 		}
 
 		public virtual bool Init(cavr.config.Configuration config) {
 			displayName = config.Get<string>("display");
 			inputName = config.Get<string>("input_name");
-			updateContextCallback = new FunctionCallback(cavr.System.GetCallback(config.Get<string>("update_callback")));
-			destructContextCallback = new FunctionCallback(cavr.System.GetCallback(config.Get<string>("destruct_callback")));
+			updateContextCallback = cavr.System.GetCallback(config.Get<string>("update_callback"));
+			destructContextCallback = cavr.System.GetCallback(config.Get<string>("destruct_callback"));
 
 			// TODO: Pick Display from displayName
 			display = DisplayDevice.Default;
@@ -86,30 +86,104 @@ namespace opengl
 
 			config.PopPrefix();
 
-			if(stereoWindows.Count > 0) {
-				var stereoConfig = new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8, 0, 0, 2, true);
-				stereoContext = new GraphicsContext(stereoConfig, stereoWindows[0].WindowInfo);
-			}
+            var stereoConfig = stereoWindows.Count > 0 ? new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8, 0, 0, 2, true) : null;
+            var monoConfig = monoWindows.Count > 0 ? new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8, 0, 0, 2, false) : null;
 
-			if(monoWindows.Count > 0) {
-				var monoConfig = new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8, 0, 0, 2, false);
-				monoContext = new GraphicsContext(monoConfig, monoWindows[0].WindowInfo);
-			}
-
+            stereoContext = monoContext = null;
 			var result = true;
 			foreach(var window in stereoWindows) {
-				window.Visible = true;
+                result &= window.Open(display, stereoConfig, ref stereoContext);
+                windows.Add(window);
 			}
 
-			return false;
+            foreach(var window in monoWindows) {
+                result &= window.Open(display, monoConfig, ref monoContext);
+                windows.Add(window);
+            }
+
+            if(!result) {
+                log.Error("Failed to open all requested windows");
+                return false;
+            }
+
+            if(monoWindows.Count > 0) {
+                monoWindows[0].MakeCurrent();
+                cavr.System.SetContextData(null);
+                cavr.System.GetCallback(config.Get<string>("init_callback"))();
+                monoContextData = cavr.System.GetContextData();
+                monoContext.MakeCurrent(null);
+            }
+
+            if(stereoWindows.Count > 0) {
+                stereoWindows[0].MakeCurrent();
+                cavr.System.SetContextData(null);
+                cavr.System.GetCallback(config.Get<string>("init_callback"))();
+                stereoContextData = cavr.System.GetContextData();
+                stereoContext.MakeCurrent(null);
+            }
+
+            foreach(var window in windows) {
+                window.MakeCurrent();
+                if(!window.SetupRenderData()) {
+                    log.Error("Failed to setup render data");
+                    result = false;
+                }
+            }
+
+            if(monoContext != null) {
+                monoContext.MakeCurrent(null);
+            }
+
+            if(stereoContext != null) {
+                stereoContext.MakeCurrent(null);
+            }
+
+            var analogs = new List<Analog> {
+                InputManager.GetAnalog.ByDeviceNameOrNull(inputName + "[analog[x0]]"),
+                InputManager.GetAnalog.ByDeviceNameOrNull(inputName + "[analog[y0]]"),
+                InputManager.GetAnalog.ByDeviceNameOrNull(inputName + "[analog[x1]]"),
+                InputManager.GetAnalog.ByDeviceNameOrNull(inputName + "[analog[y1]]"),
+                InputManager.GetAnalog.ByDeviceNameOrNull(inputName + "[analog[x2]]"),
+                InputManager.GetAnalog.ByDeviceNameOrNull(inputName + "[analog[y2]]")
+            };
+
+            foreach(var window in windows) {
+                window.SetAnalogs(analogs.ToArray());
+            }
+
+			return result;
 		}
 
 		public virtual bool Step() {
-			return false;
+            if(monoWindows.Count > 0) {
+                monoWindows[0].MakeCurrent();
+                cavr.System.SetContextData(null);
+                updateContextCallback();
+                monoContextData = cavr.System.GetContextData();
+                monoContext.MakeCurrent(null);
+            }
+
+            if(stereoWindows.Count > 0) {
+                stereoWindows[0].MakeCurrent();
+                cavr.System.SetContextData(null);
+                updateContextCallback();
+                stereoContextData = cavr.System.GetContextData();
+                stereoContext.MakeCurrent(null);
+            }
+
+            foreach(var window in windows) {
+                window.Update();
+            }
+
+            ProcessEvents();
+
+			return true;
 		}
 
-		public void ProeccessEvents() {
-			
+		public void ProcessEvents() {
+            foreach(var window in windows) {
+                window.ProcessEvents();
+            }
 		}
 
 		public static PluginGeneratorBase Load() {

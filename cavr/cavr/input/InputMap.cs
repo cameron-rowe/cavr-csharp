@@ -15,6 +15,12 @@ namespace cavr.input
 		public Dictionary<string, string> analogMap;
 		public Dictionary<string, string> sixdofMap;
 
+        public InputMap() {
+            buttonMap = new Dictionary<string, string>();
+            analogMap = new Dictionary<string, string>();
+            sixdofMap = new Dictionary<string, string>();
+        }
+
 		private delegate bool GenFunc(Dictionary<string, string> map, string varName);
 
 		public static InputMap GenerateFromLuaFile(string path) {

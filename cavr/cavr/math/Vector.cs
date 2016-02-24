@@ -768,6 +768,10 @@ namespace cavr.math
 			get { return values[2]; }
 		}
 
+        public double w {
+            get { return values[3]; }
+        }
+
 		public Vector2d xy {
 			get { return new Vector2d(values[0], values[1]); }
 		}
