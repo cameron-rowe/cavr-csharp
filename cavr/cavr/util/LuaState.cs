@@ -17,7 +17,7 @@ namespace cavr.util
 
         public LuaState()
         {
-            State = new KopiLua.LuaState();
+            State = LuaLib.LuaLNewState();
             LuaLib.LuaLOpenLibs(State);
             StackDepth = 0;
         }
@@ -41,8 +41,9 @@ namespace cavr.util
         public bool LoadFile(string path) {
             var index = path.LastIndexOf('/');
 
-            var pathToFile = (index > 0) ? path.Substring(0, index-1) : (index == 0) ? "/" : path;
+            var pathToFile = (index > 0) ? path.Substring(0, index) : (index == 0) ? "/" : path;
             var importFunction = string.Format("import = function(s) dofile(\"{0}/\" .. s) end", pathToFile);
+            log.Info(importFunction);
 
             if(!LoadBuffer(importFunction)) {
                 log.Error("Failed to load import function");
@@ -58,13 +59,13 @@ namespace cavr.util
             }
 
             if(LuaLib.LuaLLoadFile(State, path) != 0) {
-                log.Error("Could not load lua file");
+                log.Error("Could not load lua file: {0}", path);
                 log.Error(LuaLib.LuaToString(State, -1));
                 return false;
             }
 
             if(LuaLib.LuaPCall(State, 0, 0, 0) != 0) {
-                log.Error("Could not execute Lua file");
+                log.Error("Could not execute Lua file: {0}", path);
                 log.Error(LuaLib.LuaToString(State, -1));
                 return false;
             }

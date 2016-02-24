@@ -1,4 +1,4 @@
-﻿sim_window = {
+sim_window = {
   view = {
     simulator_view = true;
   };
@@ -22,7 +22,7 @@ self = {
   address = HOSTNAME;
   plugins = {
     x11_renderer = x11_renderer;
-    vrpn = vrpn;
+    --vrpn = vrpn;
   };
 };
 

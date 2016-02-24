@@ -9,6 +9,7 @@ namespace cavr.util
             var paths = new List<string> {"."};
 
             paths.Add("/Users/cam/Desktop/test/csharp/cavr/test");
+            paths.Add("/cse/home/crowe/Desktop/cavr-csharp/test");
 
             var cavrPaths = GetCavrPaths();
 
