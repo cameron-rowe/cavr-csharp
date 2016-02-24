@@ -12,89 +12,89 @@ using cavr.input;
 
 namespace opengl
 {
-	public class Gl : Plugin
-	{
-		private static Logger log = LogManager.GetCurrentClassLogger();
-		private static bool contextError = false;
+    public class Gl : Plugin
+    {
+        private static Logger log = LogManager.GetCurrentClassLogger();
+        private static bool contextError = false;
 
-		public static Mutex Mutex { get; private set; } = new Mutex();
+        public static Mutex Mutex { get; private set; } = new Mutex();
 
-		private List<Window> stereoWindows;
-		private GraphicsContext stereoContext;
-		private object stereoContextData;
+        private List<Window> stereoWindows;
+        private GraphicsContext stereoContext;
+        private object stereoContextData;
 
-		private List<Window> monoWindows;
-		private GraphicsContext monoContext;
-		private object monoContextData;
+        private List<Window> monoWindows;
+        private GraphicsContext monoContext;
+        private object monoContextData;
 
-		private string displayName;
-		private DisplayDevice display;
+        private string displayName;
+        private DisplayDevice display;
 
-		private string inputName;
-		//private Dictionary<NativeWindow, Window> windowMap;
-		private Dictionary<Key, Button> buttonByKey;
+        private string inputName;
+        //private Dictionary<NativeWindow, Window> windowMap;
+        private Dictionary<Key, Button> buttonByKey;
         private List<Window> windows;
 
-		private FunctionCallback updateContextCallback;
-		private FunctionCallback destructContextCallback;
+        private FunctionCallback updateContextCallback;
+        private FunctionCallback destructContextCallback;
 
-		public Gl()
-		{
-			display = null;
-			monoContext = null;
-			stereoContext = null;
+        public Gl()
+        {
+            display = null;
+            monoContext = null;
+            stereoContext = null;
 
-			stereoWindows = new List<Window>();
-			monoWindows = new List<Window>();
+            stereoWindows = new List<Window>();
+            monoWindows = new List<Window>();
             windows = new List<Window>();
-			//windowMap = new Dictionary<NativeWindow, Window>();
-			buttonByKey = new Dictionary<Key, Button>();
-		}
+            //windowMap = new Dictionary<NativeWindow, Window>();
+            buttonByKey = new Dictionary<Key, Button>();
+        }
 
-		public virtual bool Init(cavr.config.Configuration config) {
-			displayName = config.Get<string>("display");
-			inputName = config.Get<string>("input_name");
-			updateContextCallback = cavr.System.GetCallback(config.Get<string>("update_callback"));
-			destructContextCallback = cavr.System.GetCallback(config.Get<string>("destruct_callback"));
+        public virtual bool Init(cavr.config.Configuration config) {
+            displayName = config.Get<string>("display");
+            inputName = config.Get<string>("input_name");
+            updateContextCallback = cavr.System.GetCallback(config.Get<string>("update_callback"));
+            destructContextCallback = cavr.System.GetCallback(config.Get<string>("destruct_callback"));
 
-			// TODO: Pick Display from displayName
-			display = DisplayDevice.Default;
+            // TODO: Pick Display from displayName
+            display = DisplayDevice.Default;
 
-			if(display == null) {
-				log.Error("Failed to open display {0}", displayName);
-				return false;
-			}
+            if(display == null) {
+                log.Error("Failed to open display {0}", displayName);
+                return false;
+            }
 
-			var windowKeys = config.Get<List<string>>("windows.__keys");
-			config.PushPrefix("windows.");
-			foreach(var windowName in windowKeys) {
-				config.PushPrefix(windowName + ".");
-				var window = Window.Configure(config, display);
-				config.PopPrefix();
-				if(window != null) {
-					if(window.IsStereo) {
-						stereoWindows.Add(window);
-					}
-					else {
-						monoWindows.Add(window);
-					}
-				}
-				else {
-					log.Error("Failed to configure window");
-				}
-			}
+            var windowKeys = config.Get<List<string>>("windows.__keys");
+            config.PushPrefix("windows.");
+            foreach(var windowName in windowKeys) {
+                config.PushPrefix(windowName + ".");
+                var window = Window.Configure(config, display);
+                config.PopPrefix();
+                if(window != null) {
+                    if(window.IsStereo) {
+                        stereoWindows.Add(window);
+                    }
+                    else {
+                        monoWindows.Add(window);
+                    }
+                }
+                else {
+                    log.Error("Failed to configure window");
+                }
+            }
 
-			config.PopPrefix();
+            config.PopPrefix();
 
             var stereoConfig = stereoWindows.Count > 0 ? new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8, 0, 0, 2, true) : null;
             var monoConfig = monoWindows.Count > 0 ? new GraphicsMode(new ColorFormat(8, 8, 8, 8), 24, 8, 0, 0, 2, false) : null;
 
             stereoContext = monoContext = null;
-			var result = true;
-			foreach(var window in stereoWindows) {
+            var result = true;
+            foreach(var window in stereoWindows) {
                 result &= window.Open(display, stereoConfig, ref stereoContext);
                 windows.Add(window);
-			}
+            }
 
             foreach(var window in monoWindows) {
                 result &= window.Open(display, monoConfig, ref monoContext);
@@ -151,10 +151,10 @@ namespace opengl
                 window.SetAnalogs(analogs.ToArray());
             }
 
-			return result;
-		}
+            return result;
+        }
 
-		public virtual bool Step() {
+        public virtual bool Step() {
             if(monoWindows.Count > 0) {
                 monoWindows[0].MakeCurrent();
                 cavr.System.SetContextData(null);
@@ -177,22 +177,22 @@ namespace opengl
 
             ProcessEvents();
 
-			return true;
-		}
+            return true;
+        }
 
-		public void ProcessEvents() {
+        public void ProcessEvents() {
             foreach(var window in windows) {
                 window.ProcessEvents();
             }
-		}
+        }
 
-		public static PluginGeneratorBase Load() {
-			return null;
-		}
+        public static PluginGeneratorBase Load() {
+            return null;
+        }
 
-		private static bool GetFramebufferConfig(DisplayDevice display, bool b, ref GraphicsMode config) {
-			return false;
-		}
-	}
+        private static bool GetFramebufferConfig(DisplayDevice display, bool b, ref GraphicsMode config) {
+            return false;
+        }
+    }
 }
 

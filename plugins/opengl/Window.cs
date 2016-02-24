@@ -18,10 +18,10 @@ using cavr.math;
 namespace opengl
 {
     public abstract class Window : IRenderer, IDisposable
-	{
+    {
         private static Logger log = LogManager.GetCurrentClassLogger();
 
-		public virtual bool IsStereo { get; }
+        public virtual bool IsStereo { get; }
 
         private double _near;
         public double Near {
@@ -67,11 +67,11 @@ namespace opengl
         protected DisplayDevice display;
         protected object contextData;
 
-		public Window()
-		{
+        public Window()
+        {
             window = null;
             colormap = 0;
-		}
+        }
 
         public void Dispose() {
             context.MakeCurrent(null);
@@ -177,10 +177,10 @@ namespace opengl
             return true;
         }
 
-		public static Window Configure(cavr.config.Configuration config, DisplayDevice display = null) {
-			if(display == null) {
-				display = DisplayDevice.Default;
-			}
+        public static Window Configure(cavr.config.Configuration config, DisplayDevice display = null) {
+            if(display == null) {
+                display = DisplayDevice.Default;
+            }
 
             var windowType = config.Get<string>("view");
             Window window = null;
@@ -207,9 +207,9 @@ namespace opengl
 
             window.renderCallback = cavr.System.GetCallback(config.Get<string>("render_callback"));
 
-			return window;
-		}
-	}
+            return window;
+        }
+    }
 
     public class PerspectiveWindow : Window
     {

@@ -10,12 +10,12 @@ using cavr;
 
 namespace test
 {
-	class MainClass
-	{
+    class MainClass
+    {
         private static Logger log = LogManager.GetCurrentClassLogger();
 
-		public static void Main(string[] args)
-		{
+        public static void Main(string[] args)
+        {
             var inputMap = new cavr.input.InputMap();
             inputMap.buttonMap["exit"] = "keyboard[Escape]";
 
@@ -25,6 +25,6 @@ namespace test
             }
 
             cavr.System.Run();
-		}
-	}
+        }
+    }
 }
